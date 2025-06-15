@@ -15,7 +15,8 @@ docker compose up -d
 ```
 
 ## License
-MIT — free to use, adapt, and extend.
+This project is under MIT license.  
+Feel free to use, adapt, and extend.
 
 ## Contribute
 Found a pattern worth generalizing? Want to add a new language or stack?  

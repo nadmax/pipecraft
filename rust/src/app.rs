@@ -1,7 +1,6 @@
 use std::io::prelude::*;
 use std::net::TcpStream;
 use std::sync::Arc;
-use crate::models::user::UserStore;
 use crate::routes::users::UserRoutes;
 use crate::middlewares::error_handler::ErrorHandler;
 

@@ -1,5 +1,5 @@
 # Pipecraft
-Stop rewriting the same CI/CD and Docker setup.  
+Stop rewriting the same CI/CD, Docker and project's language setup.  
 Pipecraft is a collection of clean, production-ready boilerplates across multiple languages, each one complete with:
 - ✅ Dockerized setup
 - ✅ CI/CD with GitHub Actions

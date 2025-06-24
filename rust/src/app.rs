@@ -36,9 +36,8 @@ impl App {
         }
     }
 
-    fn route_request(&self, request: &str) -> String {
+    pub fn route_request(&self, request: &str) -> String {
         let lines: Vec<&str> = request.lines().collect();
-        
         if lines.is_empty() {
             return self.error_handler.bad_request();
         }
@@ -46,12 +45,16 @@ impl App {
         let request_line = lines[0];
         let parts: Vec<&str> = request_line.split_whitespace().collect();
 
-        if parts.len() < 2 {
+        if parts.len() < 3 {
             return self.error_handler.bad_request();
         }
 
         let method = parts[0];
         let path = parts[1];
+        let version = parts[2];
+        if version != "HTTP/1.1" {
+            return self.error_handler.bad_request();
+        }
 
         if path.starts_with("/users") {
             self.user_routes.handle(method, path, request)

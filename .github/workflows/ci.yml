@@ -4,7 +4,12 @@ on:
   pull_request:
 
 jobs:
+  security:
+    name: Scan apps security
+    uses: ./.github/workflows/security.yml
+
   build:
+    needs: security
     name: Build apps
     uses: ./.github/workflows/build.yml
 

@@ -1,0 +1,97 @@
+name: Security
+
+on:
+  workflow_call:
+
+jobs:
+  py-security:
+    defaults:
+      run:
+        working-directory: python
+    name: Python Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install bandit safety
+          pip install -r requirements.txt
+
+      - name: Run Bandit
+        run: bandit -r src
+
+      - name: Run Safety check
+        run: safety check -r requirements.txt
+
+  ts-security:
+    defaults:
+      run:
+        working-directory: typescript
+    name: TypeScript Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+
+  go-security:
+    defaults:
+      run:
+        working-directory: rust
+    name: Go Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
+
+  rs-security:
+    name: Rust Security Scan
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          rust-version: '1.87'
+
+      - name: Install cargo-audit
+        run: cargo install cargo-audit
+
+      - name: Run cargo audit
+        run: cargo audit
